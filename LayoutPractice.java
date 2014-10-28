@@ -15,23 +15,37 @@ import java.awt.event.*;
 
 public class LayoutPractice extends JPanel  {
 
-    static int numClicks = 0;
+    static int numClicks;
     private static JTextField messageText = new JTextField();
-
-    public LayoutPractice() {
-    }
+    private static JTextField textDisplayedWhenButtonClicks = new JTextField();
+    static LayoutPractice clickedamount = new LayoutPractice();
     
+    public LayoutPractice(){
+    }
+//
+//    public LayoutPractice(int numClicks) {
+//        this.numClicks = numClicks;
+//    }
+    
+    public void setClicks(int value){
+       this.numClicks = value;
+       System.out.println("clicks here: "+this.numClicks);
+    }
+    public int getClicks(){
+        System.out.println("look"+this.numClicks);
+        return this.numClicks;
+    }
     public void paintComponent(Graphics g) {
-        super.paintComponents(g);
+        super.paintComponent(g);
         
-        /*(x,y, width, height)*/
-        g.drawOval(50, 50, 400, 400);
-        g.setColor(Color.black);
-        g.fillOval(50, 50, 400, 400);
-        
-        g.drawOval(75, 75, 350, 350);
-        g.setColor(Color.cyan);
-        g.fillOval(75, 75, 350, 350);
+//        /*(x,y, width, height)*/
+//        g.drawOval(50, 50, 400, 400);
+//        g.setColor(Color.black);
+//        g.fillOval(50, 50, 400, 400);
+//        
+//        g.drawOval(75, 75, 350, 350);
+//        g.setColor(Color.cyan);
+//        g.fillOval(75, 75, 350, 350);
     }
 
     /**
@@ -49,7 +63,7 @@ public class LayoutPractice extends JPanel  {
         panel.setPreferredSize(new Dimension(500,500));
 
         JPanel borderedPanel = new LayoutPractice();
-        Border border = BorderFactory.createTitledBorder("Click the buttons for fun!");
+        Border border = BorderFactory.createTitledBorder("Click Buttons");
         borderedPanel.setBorder(border);
 
         panel.add(borderedPanel);
@@ -58,7 +72,7 @@ public class LayoutPractice extends JPanel  {
         frame.pack();
         frame.setVisible(true);
         /*set the background of the panel*/
-        frame.getContentPane().setBackground(Color.magenta);
+        frame.getContentPane().setBackground(Color.white);
     }
 
     /**
@@ -70,6 +84,9 @@ public class LayoutPractice extends JPanel  {
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         addAButton("Button 1", contentPane);
         addAButton2("Click for Dialog", contentPane);
+  
+        JLabel label01 = new JLabel("clicks: "+clickedamount.getClicks());
+        contentPane.add(label01);
     }
 
     /**
@@ -77,7 +94,7 @@ public class LayoutPractice extends JPanel  {
      * @param text
      * @param container
      */
-    private static void addAButton(String text, Container container) {
+    private static void addAButton(final String text, final Container container) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         container.add(button);
@@ -88,18 +105,24 @@ public class LayoutPractice extends JPanel  {
         button.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 numClicks++;
+            clickedamount.setClicks(numClicks);
+            numClicks.setText(clickedamount.getClicks());
+            // tester 
+       //     repaint();
+          //do getter setter method 
+              //  textDisplayedWhenButtonClicks.setText("Button Clicked " + numClicks + " times");
             }
         });
     }
     
     private static void addAButton2(String text, Container container) {
-        JButton button = new JButton(text);
-        button.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        container.add(button);
+        JButton button2 = new JButton(text);
+        button2.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        container.add(button2);
         /*Listens to action events, in this case the clicking
          * of a button
          */
-        button.addActionListener(new ActionListener(){
+        button2.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                   JOptionPane.showMessageDialog(messageText, "You clicked "+numClicks+" times");
             }
