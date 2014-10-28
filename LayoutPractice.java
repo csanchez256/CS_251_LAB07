@@ -17,35 +17,28 @@ public class LayoutPractice extends JPanel  {
 
     static int numClicks;
     private static JTextField messageText = new JTextField();
-    private static JTextField textDisplayedWhenButtonClicks = new JTextField();
     static LayoutPractice clickedamount = new LayoutPractice();
     
     public LayoutPractice(){
     }
-//
-//    public LayoutPractice(int numClicks) {
-//        this.numClicks = numClicks;
-//    }
     
     public void setClicks(int value){
        this.numClicks = value;
-       System.out.println("clicks here: "+this.numClicks);
     }
     public int getClicks(){
-        System.out.println("look"+this.numClicks);
         return this.numClicks;
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-//        /*(x,y, width, height)*/
-//        g.drawOval(50, 50, 400, 400);
-//        g.setColor(Color.black);
-//        g.fillOval(50, 50, 400, 400);
-//        
-//        g.drawOval(75, 75, 350, 350);
-//        g.setColor(Color.cyan);
-//        g.fillOval(75, 75, 350, 350);
+        /*(x,y, width, height)*/
+        g.drawOval(50, 50, 400, 400);
+        g.setColor(Color.black);
+        g.fillOval(50, 50, 400, 400);
+        
+        g.drawOval(75, 75, 350, 350);
+        g.setColor(Color.cyan);
+        g.fillOval(75, 75, 350, 350);
     }
 
     /**
@@ -82,11 +75,8 @@ public class LayoutPractice extends JPanel  {
     private static void addComponentsToPane(Container contentPane) {
         /*Sets the layout manager for this container. */
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-        addAButton("Button 1", contentPane);
-        addAButton2("Click for Dialog", contentPane);
-  
-        JLabel label01 = new JLabel("clicks: "+clickedamount.getClicks());
-        contentPane.add(label01);
+        counterButton("Button 1", contentPane);
+        dialogButton("Click for Dialog", contentPane);
     }
 
     /**
@@ -94,10 +84,12 @@ public class LayoutPractice extends JPanel  {
      * @param text
      * @param container
      */
-    private static void addAButton(final String text, final Container container) {
+    private static void counterButton(final String text, final Container container) {
         JButton button = new JButton(text);
-        button.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        final JLabel label01 = new JLabel("Number of clicks: "+clickedamount.getClicks());
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
         container.add(button);
+        container.add(label01);
 
         /*Listens to action events, in this case the clicking
          * of a button
@@ -106,23 +98,19 @@ public class LayoutPractice extends JPanel  {
             public void actionPerformed(ActionEvent e){
                 numClicks++;
             clickedamount.setClicks(numClicks);
-            numClicks.setText(clickedamount.getClicks());
-            // tester 
-       //     repaint();
-          //do getter setter method 
-              //  textDisplayedWhenButtonClicks.setText("Button Clicked " + numClicks + " times");
+           label01.setText("clicks: "+clickedamount.getClicks());
             }
         });
     }
     
-    private static void addAButton2(String text, Container container) {
-        JButton button2 = new JButton(text);
-        button2.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        container.add(button2);
+    private static void dialogButton(String text, Container container) {
+        JButton button = new JButton(text);
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        container.add(button);
         /*Listens to action events, in this case the clicking
          * of a button
          */
-        button2.addActionListener(new ActionListener(){
+        button.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                   JOptionPane.showMessageDialog(messageText, "You clicked "+numClicks+" times");
             }
@@ -130,7 +118,6 @@ public class LayoutPractice extends JPanel  {
     }
 
     public static void main(String[] args) {
-        //LayoutPractice lObj = new LayoutPractice();
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createWindow();
